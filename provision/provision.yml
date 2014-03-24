@@ -1,0 +1,33 @@
+---
+
+- hosts: all
+  vars_files:
+    - vars.yml
+
+  tasks:
+  - name: Install system packages.
+    apt: pkg={{item}} state=installed update-cache=yes
+    with_items: system_packages
+
+  - name: Add repository key to keychain
+    apt_key: url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x5BB92C09DB82666C state=present
+
+  - name: Add repository with Python 3.3 to apt resources list
+    apt_repository: repo="deb http://ppa.launchpad.net/fkrull/deadsnakes/ubuntu precise main"
+  
+  - name: Install Python 3.3 
+    apt: pkg={{item}} update-cache=yes force=yes
+    with_items: python_packages
+
+  - name: Install setuptools
+    shell: "wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | sudo python3.3"
+
+  - name: Install pip
+    easy_install: name=pip
+
+  - name: Install pip packages
+    pip: name={{item}}
+    with_items: pip_packages
+
+  handlers:
+    - include: handlers.yml

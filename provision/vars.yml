@@ -1,0 +1,19 @@
+---
+python_packages:
+  - python3.3
+  - python3.3-dev
+system_packages:
+  - build-essential
+  - vim
+  - tree
+  - git
+  - python-software-properties
+  - python-dev
+  - python-psycopg2
+  - libpq-dev
+  - postgresql
+  - postgresql-contrib
+pip_packages:
+  - virtualenv
+  - virtualenvwrapper
+  - ipython
